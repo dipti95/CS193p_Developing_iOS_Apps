@@ -19,42 +19,48 @@ struct ContentView: View {
             
             //[0..<6] zero upto 6 but not including 6
             //[0...6] zero upto 6 including 6
-            HStack{
-                ForEach(emojis[0..<emojiCount], id : \.self ){ emoji in
-                    CardView(content: emoji)
+            ScrollView {
+                // LazyVGrid is lazy about accessing the body vars of all of its Views
+                LazyVGrid (columns: [GridItem(.adaptive(minimum:65))] ){
+                    ForEach(emojis[0..<emojiCount], id : \.self ){ emoji in
+                        CardView(content: emoji)
+                            .aspectRatio(2/3, contentMode: .fit)
+                    }
                 }
             }
+            .foregroundColor(.red)
+            Spacer()
             HStack{
                 remove
                 Spacer()
                 add
-                
-            }.padding(.horizontal)
-       
-
-            
+            }
+            .font(.largeTitle)
+            .padding(.horizontal)
+    
         }
         .padding(.horizontal)
-        .foregroundColor(.red)
-            
-        }
+        
+    }
     
     var remove: some View{
-        Button(action: {emojiCount -= 1}, label: {
-            VStack{
-                Text("REMOVE")
-                Text("CARD")
+        Button {
+            if emojiCount > 1{
+                emojiCount -= 1
             }
-        })
+        } label: {
+            Image(systemName: "minus.circle")
+        }
     }
     
     var add: some View{
-        Button(action: {emojiCount += 1}, label: {
-            VStack{
-                Text("ADD")
-                Text("CARD")
-            }
-        })
+        Button {
+            if emojiCount < emojis.count{
+                emojiCount += 1
+              }
+            } label: {
+            Image(systemName: "plus.circle")
+        }
 
     }
         
@@ -72,7 +78,7 @@ struct CardView: View {
            let shape = RoundedRectangle(cornerRadius: 20)
            if isFaceUp{
                shape.fill().foregroundColor(.white)
-               shape.stroke(lineWidth:  3)
+               shape.strokeBorder(lineWidth:  3)
                
                Text(content)
                    .font(.largeTitle)
