@@ -10,21 +10,32 @@ import Foundation
 //CardContent type we don't care so we have to announce so that somebody uses this game then they can know what this "don't care" is.
 struct MemoryGame<CardContent> {
     private(set) var cards: Array<Card>
+    
+    
+    // first of all the below variable value is none because we want for our game so that's why we put question mark which represent optional so that below variable will have value none or int
+    private var IndexOfTheOneAndOnlyFaceUpCard: Int?
      
    mutating func choose(_ card: Card) {
-        let chosenIndex = index(of: card)
-        cards[chosenIndex].isFaceUp.toggle()
+       //if let is the part of syntheic sugar which is provided by swift
+       if let chosenIndex = cards.firstIndex(where: {$0.id == card.id }){
+           
+           
+           cards[chosenIndex].isFaceUp.toggle()
+       }
         print("\(cards)")
     }
     
-    func index(of card: Card) -> Int {
-        for index in 0..<cards.count {
-            if cards[index].id == card.id {
-                return index
-            }
-        }
-        return 0 //bogus
-    }
+    //this "if let chosenIndex = cards.firstIndex(where: {$0.id == card.id })" expresssion replaces below function.
+    
+    // question mark after Int means Optional.
+//    func index(of card: Card) -> Int? {
+//        for index in 0..<cards.count {
+//            if cards[index].id == card.id {
+//                return index
+//            }
+//        }
+//        return nil
+//    }
     
     init(numberOfPairsOfCards: Int, createCardContent:(Int) -> CardContent) {
         cards = Array<Card>()
