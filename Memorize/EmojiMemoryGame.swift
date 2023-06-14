@@ -9,11 +9,12 @@ import SwiftUI
 
 
 class EmojiMemoryGame: ObservableObject {
+    typealias Card = MemoryGame<String>.Card
     
     // static make the variable global
     // emojis is a global
     // typed variable
-   private static let emojis : Array<String> = ["🚞", "🚗",  "🛵", "✈️", "🚚", "🚑","🛺", "🚘","🏍️","🚊","🛴","🚁","🚔","🚎","🚓", "🚛","🚐","🚙","🚍","🛻","🏎️","⛵️","⛴️","🚁"]
+   private static let emojis = ["🚞", "🚗",  "🛵", "✈️", "🚚", "🚑","🛺", "🚘","🏍️","🚊","🛴","🚁","🚔","🚎","🚓", "🚛","🚐","🚙","🚍","🛻","🏎️","⛵️","⛴️","🚁"]
     
     //typed function
    private static func createMemoryGame() -> MemoryGame<String> {
@@ -21,18 +22,18 @@ class EmojiMemoryGame: ObservableObject {
     }
     
      
-    @Published private var model: MemoryGame<String> = createMemoryGame()
+    @Published private var model = createMemoryGame()
      
     
     // This is fresh copy because it is from struct
-    var cards: Array<MemoryGame<String>.Card> {
+    var cards: Array<Card> {
         return model.cards
     }
     
     
     // Intent(s)
     
-    func choose(_ card: MemoryGame<String>.Card) {
+    func choose(_ card: Card) {
         //objectWillChange.send()
         model.choose(card)
     }
