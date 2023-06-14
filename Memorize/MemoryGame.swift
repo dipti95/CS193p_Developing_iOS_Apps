@@ -14,30 +14,40 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
     
     // first of all the below variable value is none because we want for our game so that's why we put question mark which represent optional so that below variable will have value none or int
     private var indexOfTheOneAndOnlyFaceUpCard: Int? {
-        get { var faceUpCardIndices = [Int]()
-            for index in cards.indices {
-                if cards[index].isFaceUp {
-                    faceUpCardIndices.append(index)
-                }
-            }
-            if faceUpCardIndices.count == 1 {
-                // we can use faceUpCardIndices[0] as well as faceUpCardIndices.first.
-                // In .first if faceUpCardIndices will empty it will return nil.
-                return faceUpCardIndices.first
-            }else {
-                return nil
-            }
+        get {
+            let faceUpCardIndices = cards.indices.filter({cards[$0].isFaceUp})
+            return faceUpCardIndices.oneAndOnly
+            // oneAndOnly is an array extension we is written in the end of this file
+            // THE ABOVE TWO LINE WILL BE WRITTEN LIKE THIS WITHOUT RETURN cards.indices.filter({cards[$0].isFaceUp}).oneAndOnly
+            
+            //ABOVE CODE IS THE SHORT WAY TO WRITE THE BELOW CODE
+            
+//            var faceUpCardIndices = [Int]()
+//            for index in cards.indices {
+//                if cards[index].isFaceUp {
+//                    faceUpCardIndices.append(index)
+//                }
+//            }
+//            if faceUpCardIndices.count == 1 {
+//                // we can use faceUpCardIndices[0] as well as faceUpCardIndices.first.
+//                // In .first if faceUpCardIndices will empty it will return nil.
+//                return faceUpCardIndices.first
+//            }else {
+//                return nil
+//            }
         }
         set {
-            for index in cards.indices {
-                // set provide the variable newValue variable
-                // So if indexOfTheOneAndOnlyFaceUpCard = chosenIndex then the newValue is chosenIndex
-                if index != newValue {
-                    cards[index].isFaceUp = false
-                }else {
-                    cards[index].isFaceUp = true
-                }
-            }
+            cards.indices.forEach {cards[$0].isFaceUp = ($0 == newValue)}
+            
+//            for index in cards.indices {
+//                // set provide the variable newValue variable
+//                // So if indexOfTheOneAndOnlyFaceUpCard = chosenIndex then the newValue is chosenIndex
+//                if index != newValue {
+//                    cards[index].isFaceUp = false
+//                }else {
+//                    cards[index].isFaceUp = true
+//                }
+//            }
         }
     }
      
@@ -88,5 +98,17 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
         let content: CardContent
         let id: Int
         
+    }
+}
+
+extension Array{
+    // we write Element we we don't care about type of var inside an array
+    // ? for optional beacuse if the array is empty we want to return nil
+    var oneAndOnly: Element? {
+         if count == 1 {
+         return first
+         }else {
+            return nil
+        }
     }
 }
