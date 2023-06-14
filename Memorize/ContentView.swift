@@ -17,7 +17,7 @@ struct ContentView: View {
             //[0...6] zero upto 6 including 6
             ScrollView {
                 // LazyVGrid is lazy about accessing the body vars of all of its Views
-                LazyVGrid (columns: [GridItem(.adaptive(minimum:65))] ){
+                LazyVGrid (columns: [GridItem(.adaptive(minimum: 65))] ){
                     ForEach(viewModel.cards){ card in
                         CardView(card: card)
                             .aspectRatio(2/3, contentMode: .fit)
